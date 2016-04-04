@@ -10,5 +10,5 @@ hello  find_module
 hello  load_module
 wrap_module
 sleep 3
-hello.hello2 spend 3.005079984664917 s
+hello.hello2 spent 3.005079984664917 s
 ```

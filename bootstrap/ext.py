@@ -66,7 +66,7 @@ class Timer:
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.end_time = time.time()
-        spend = self.end_time - self.start_time
-        print('{0}.{1} spend {2} s'.format(
-            self.func.__module__, self.func.__name__, spend
+        spent = self.end_time - self.start_time
+        print('{0}.{1} spent {2} s'.format(
+            self.func.__module__, self.func.__name__, spent
         ))
