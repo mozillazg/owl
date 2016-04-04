@@ -2,6 +2,6 @@
 import time
 
 
-def hello():
+def hello2():
     time.sleep(3)
     print('sleep 3')

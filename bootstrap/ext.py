@@ -3,33 +3,43 @@ import importlib
 import sys
 import time
 
+_modules = set()
+
 
 class ImportHookFinder:
 
     def find_module(self, fullname, path=None):
         print(fullname + '  find_module')
-        return self
+        if 'hello' in fullname:
+            return self
 
     def load_module(self, fullname):
         print(fullname + '  load_module')
         if fullname in sys.modules:
             return sys.modules[fullname]
 
-        finder = sys.meta_path.pop()
-        module = importlib.import_module(fullname)
+        sys.meta_path.pop(0)
+        try:
+            module = importlib.import_module(fullname)
+        except ImportError:
+            return
 
         wrap_module(fullname, module)
 
         sys.modules[fullname] = module
-        sys.meta_path.append(finder)
+        sys.meta_path.insert(0, self)
         return module
 
-sys.meta_path.append(ImportHookFinder())
+
+def init():
+    # sys.meta_path.append(ImportHookFinder())
+    sys.meta_path.insert(0, ImportHookFinder())
 
 
 def wrap_module(fullname, module):
+    print('wrap_module')
     if 'hello' in fullname:
-        module.hello = FuncWrapper(module.hello)
+        module.hello2 = FuncWrapper(module.hello2)
 
 
 class FuncWrapper:
@@ -57,4 +67,6 @@ class Timer:
     def __exit__(self, exc_type, exc_value, traceback):
         self.end_time = time.time()
         spend = self.end_time - self.start_time
-        print('{0} spend {1} s'.format(self.func.__name__, spend))
+        print('{0}.{1} spend {2} s'.format(
+            self.func.__module__, self.func.__name__, spend
+        ))

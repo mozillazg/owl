@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import ext   # noqa
-
+import hello
 
 if __name__ == '__main__':
-    import hello
-    hello.hello()
+    # import sys
+    # print(sys.meta_path)
+    hello.hello2()
