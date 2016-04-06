@@ -47,9 +47,6 @@ class FuncWrapper:
     def __init__(self, func):
         self.func = func
 
-    def __get__(self, instance, owner):
-        return self
-
     def __call__(self, *args, **kwargs):
         with Timer(self.func):
             return self.func(*args, **kwargs)
